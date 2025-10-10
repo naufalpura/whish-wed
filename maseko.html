@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ucapan Nikah Gen Z</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        font-family: "Comic Neue", cursive;
+        background: linear-gradient(135deg, #ff66c4, #ffff66, #66ff66);
+        text-align: center;
+        margin: 0;
+        padding: 20px;
+        overflow-x: hidden;
+      }
+
+      header {
+        background-color: #ff00aa;
+        color: #fff;
+        padding: 40px 10px;
+        border: 6px dotted #000;
+        transform: rotate(-1deg);
+        box-shadow: 5px 5px 0 #000;
+      }
+
+      header h1 {
+        font-size: 3rem;
+        text-shadow: 2px 2px #000;
+      }
+
+      section#ucapan {
+        margin: 40px 0;
+        background: #fff8f0;
+        padding: 25px;
+        border: 4px dashed #ff69b4;
+        border-radius: 20px;
+        box-shadow: 5px 5px 0 #000;
+      }
+
+      section#ucapan h2 {
+        font-size: 2rem;
+        color: #d500f9;
+        text-transform: uppercase;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 10px;
+        margin-top: 20px;
+      }
+
+      .gallery img {
+        width: 100%;
+        border: 4px solid #000;
+        border-radius: 12px;
+        box-shadow: 4px 4px 0 #ff69b4;
+        transition: transform 0.3s ease;
+      }
+
+      .gallery img:hover {
+        transform: scale(1.1) rotate(1deg);
+      }
+
+      footer {
+        background: #000;
+        color: #fff;
+        padding: 25px;
+        font-family: monospace;
+        font-size: 0.9rem;
+        margin-top: 40px;
+        border-top: 4px solid #ff0;
+      }
+
+      /* Minigame Styles */
+      #game {
+        margin-top: 50px;
+        background: #fff3f3;
+        padding: 20px;
+        border: 5px dashed #ff00aa;
+        border-radius: 15px;
+      }
+
+      #game h2 {
+        color: #ff0055;
+        margin-bottom: 10px;
+      }
+
+      #playArea {
+        width: 300px;
+        height: 300px;
+        background: #f0f0f0;
+        border: 3px solid #000;
+        margin: 0 auto;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .item {
+        font-size: 2rem;
+        position: absolute;
+        cursor: pointer;
+      }
+
+      #score {
+        font-size: 1.5rem;
+        margin-top: 10px;
+        color: #333;
+      }
+
+      #game-over {
+        color: red;
+        font-size: 1.3rem;
+        display: none;
+        margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <h1>💒 ALHAMDULILLAH SAH 😭</h1>
+      <p>MAS EKO x PASANGANNYA = 💍 OTP IRL 💍</p>
+    </header>
+
+    <section id="ucapan">
+      <h2>🔥 PAHE UCAPAN DARI KAMI 🔥</h2>
+      <p>
+        Selamat atas pernikahanmu! Semoga menjadi pasangan yang langgeng, saling
+        memahami, dan selalu diberi kebahagiaan serta keberkahan. Sukses selalu
+        dalam menjalani kehidupan rumah tangga. Hormat dan salam bahagia,
+        <br /><br />Love u always, <br /><strong>om Adit</strong>
+      </p>
+    </section>
+
+    <!-- Caption sebelum galeri -->
+    <p
+      style="
+        margin-top: 40px;
+        font-style: italic;
+        color: #555;
+        font-size: 1.1rem;
+      "
+    >
+      “Galeri akan segera diisi setelah dokumentasi resmi tersedia. Terima kasih
+      atas pengertiannya 🙏”
+    </p>
+
+    <section class="gallery">
+      <img src="https://placehold.co/200x200?text=FOTO+ON+GOING" alt="1" />
+      <img src="https://placehold.co/200x200?text=FOTO+ON+GOING" alt="2" />
+      <img src="https://placehold.co/200x200?text=FOTO+ON+GOING" alt="3" />
+      <img src="https://placehold.co/200x200?text=FOTO+ON+GOING" alt="4" />
+    </section>
+
+    <section id="game">
+      <h2>🎮 Tangkap Lele Cinta!</h2>
+      <p>
+        🟢 Klik lele (🐟) buat dapet poin. Tapi awas jangan klik bawang (🧅)!
+      </p>
+      <div id="playArea"></div>
+      <div id="score">Skor: 0</div>
+      <div id="game-over">GAME OVER 😭 Refresh buat mulai lagi!</div>
+    </section>
+
+    <footer>
+      <p>🔥 DARI KAMI SEMUA 🔥</p>
+      <p>Laki laki tidak bercerita tiba tiba apa saja bisa 🙏</p>
+    </footer>
+
+    <script>
+      const playArea = document.getElementById("playArea");
+      const scoreDisplay = document.getElementById("score");
+      const gameOver = document.getElementById("game-over");
+      let score = 0;
+      let isGameOver = false;
+
+      function spawnItem() {
+        if (isGameOver) return;
+
+        const item = document.createElement("div");
+        item.classList.add("item");
+        const isLele = Math.random() > 0.3;
+        item.textContent = isLele ? "🐟" : "🧅";
+
+        item.style.top = Math.random() * 270 + "px";
+        item.style.left = Math.random() * 270 + "px";
+
+        item.onclick = () => {
+          if (isLele) {
+            score++;
+            scoreDisplay.textContent = "Skor: " + score;
+            item.remove();
+          } else {
+            gameOver.style.display = "block";
+            isGameOver = true;
+          }
+        };
+
+        playArea.appendChild(item);
+
+        setTimeout(() => {
+          if (!isGameOver) item.remove();
+        }, 2000);
+      }
+
+      setInterval(spawnItem, 800);
+    </script>
+  </body>
+</html>
