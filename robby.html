@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>THE HEADLINERS: ROBBY & BERLIN</title>
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Space+Mono:wght@400;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      /* ---------------------------------- */
+      /* PESTAPORA GLOBAL VIBES */
+      /* ---------------------------------- */
+      :root {
+        --dark-bg: #0b0b0b;
+        --primary-neon: #ff0055;
+        --secondary-neon: #00e5ff;
+        --lime-neon: #c6ff00;
+        --text-color: #ededed;
+        --main-font: "Space Mono", monospace;
+        --title-font: "Oswald", sans-serif;
+      }
+
+      body {
+        font-family: var(--main-font);
+        background: radial-gradient(circle at center, #111, #000);
+        color: var(--text-color);
+        text-align: center;
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+      }
+
+      /* ANIMATED NOISE */
+      body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        background: url("https://images.unsplash.com/photo-1520699514109-b478c7b48d3b?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=");
+        opacity: 0.06;
+        animation: flicker 4s infinite alternate;
+      }
+
+      @keyframes flicker {
+        0% {
+          opacity: 0.03;
+        }
+        100% {
+          opacity: 0.06;
+        }
+      }
+
+      /* ---------------------------------- */
+      /* HEADER — RAVE POSTER */
+      /* ---------------------------------- */
+      header {
+        padding: 70px 15px;
+        border-bottom: 6px dashed var(--primary-neon);
+        box-shadow: 0 0 25px var(--primary-neon);
+        background: linear-gradient(180deg, #000, #111);
+      }
+
+      header h1 {
+        font-family: var(--title-font);
+        font-size: clamp(2.5rem, 8vw, 4.5rem);
+        color: var(--secondary-neon);
+        letter-spacing: 7px;
+        text-shadow: 0 0 15px var(--secondary-neon),
+          0 0 30px var(--secondary-neon);
+        animation: glowPulse 2s infinite;
+      }
+
+      @keyframes glowPulse {
+        0% {
+          text-shadow: 0 0 15px var(--secondary-neon);
+        }
+        100% {
+          text-shadow: 0 0 30px var(--secondary-neon);
+        }
+      }
+
+      /* ---------------------------------- */
+      /* UCAPAN */
+      /* ---------------------------------- */
+      section#ucapan {
+        margin: 50px auto;
+        max-width: 850px;
+        background: #131313;
+        padding: 40px;
+        border: 3px solid var(--primary-neon);
+        border-radius: 10px;
+        box-shadow: 0 0 20px var(--primary-neon);
+      }
+
+      section#ucapan h2 {
+        font-family: var(--title-font);
+        font-size: 2.8rem;
+        color: var(--primary-neon);
+        text-transform: uppercase;
+        margin-bottom: 20px;
+      }
+
+      /* ---------------------------------- */
+      /* GALLERY */
+      /* ---------------------------------- */
+      .gallery-caption {
+        margin: 40px auto 10px;
+        font-style: italic;
+        color: #aaaaaa;
+        font-size: 1rem;
+        max-width: 800px;
+      }
+
+      .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+        gap: 25px;
+        padding: 0 20px;
+        max-width: 1100px;
+        margin: 0 auto;
+      }
+
+      .gallery img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border: 4px solid var(--secondary-neon);
+        border-radius: 8px;
+        box-shadow: 0 0 15px var(--secondary-neon);
+        transition: 0.3s;
+        filter: saturate(1.4);
+      }
+
+      .gallery img:hover {
+        transform: scale(1.07);
+        border-color: var(--primary-neon);
+        box-shadow: 0 0 20px var(--primary-neon);
+      }
+
+      /* ---------------------------------- */
+      /* NEW MINIGAME — DODGE THE DRAMA */
+      /* ---------------------------------- */
+      #game {
+        margin: 70px auto;
+        background: #131313;
+        padding: 35px 20px;
+        border: 3px solid var(--secondary-neon);
+        border-radius: 10px;
+        max-width: 450px;
+        box-shadow: 0 0 25px var(--secondary-neon);
+      }
+
+      #game h2 {
+        font-family: var(--title-font);
+        color: var(--lime-neon);
+        margin-bottom: 15px;
+        text-transform: uppercase;
+      }
+
+      #playArea {
+        width: 100%;
+        height: 330px;
+        background: #000;
+        border: 3px solid var(--lime-neon);
+        position: relative;
+        overflow: hidden;
+        border-radius: 8px;
+      }
+
+      #player {
+        font-size: 2.5rem;
+        position: absolute;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%);
+      }
+
+      .falling {
+        font-size: 2.2rem;
+        position: absolute;
+        top: -40px;
+        animation: fall 3s linear forwards;
+      }
+
+      @keyframes fall {
+        to {
+          top: 350px;
+        }
+      }
+
+      #score {
+        font-size: 1.7rem;
+        margin-top: 15px;
+        color: var(--secondary-neon);
+      }
+
+      #game-over {
+        color: var(--primary-neon);
+        font-size: 1.2rem;
+        display: none;
+        margin-top: 10px;
+      }
+
+      /* TOUCH ZONES (invisible but active) */
+      #touch-left,
+      #touch-right {
+        position: absolute;
+        width: 50%;
+        height: 100%;
+        bottom: 0;
+        opacity: 0; /* tak terlihat */
+        z-index: 10;
+      }
+      #touch-left {
+        left: 0;
+      }
+      #touch-right {
+        right: 0;
+      }
+      footer {
+        background: #000;
+        color: var(--secondary-neon);
+        padding: 30px;
+        margin-top: 50px;
+        border-top: 5px solid var(--secondary-neon);
+      }
+
+      .prank-button {
+        background: var(--primary-neon);
+        border: none;
+        padding: 18px 28px;
+        font-size: 1.3rem;
+        border-radius: 8px;
+        color: #fff;
+        font-family: var(--title-font);
+        letter-spacing: 2px;
+        cursor: pointer;
+        box-shadow: 0 0 15px var(--primary-neon);
+        transition: 0.2s;
+      }
+
+      .prank-button:hover {
+        transform: scale(1.08);
+        box-shadow: 0 0 20px var(--secondary-neon);
+        background: var(--secondary-neon);
+      }
+
+      /* POPUP */
+      .prank-popup {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        backdrop-filter: blur(4px);
+        background: rgba(0, 0, 0, 0.7);
+        z-index: 999;
+      }
+
+      .prank-content {
+        background: #111;
+        border: 3px solid var(--secondary-neon);
+        width: 85%;
+        max-width: 420px;
+        margin: 120px auto;
+        padding: 25px;
+        text-align: center;
+        border-radius: 10px;
+        box-shadow: 0 0 20px var(--secondary-neon);
+        animation: popup-glitch 0.25s ease-out;
+      }
+
+      @keyframes popup-glitch {
+        0% {
+          transform: scale(0.8) rotate(1deg);
+          opacity: 0;
+        }
+        50% {
+          transform: scale(1.05) rotate(-1deg);
+        }
+        100% {
+          transform: scale(1);
+          opacity: 1;
+        }
+      }
+
+      .close-prank {
+        margin-top: 20px;
+        padding: 10px 20px;
+        background: var(--primary-neon);
+        border: none;
+        color: #fff;
+        border-radius: 6px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0 0 10px var(--primary-neon);
+      }
+
+      .close-prank:hover {
+        background: red;
+        box-shadow: 0 0 15px red;
+      }
+    </style>
+  </head>
+
+  <body>
+    <header>
+      <h1>MARRIAGE FESTIVAL LINE UP 2025</h1>
+      <p style="font-size: 1.4rem; color: var(--primary-neon)">
+        HEADLINERS: <br />
+        <span
+          style="
+            font-size: 2.8rem;
+            font-family: var(--title-font);
+            color: var(--lime-neon);
+          "
+        >
+          ROBBY & BERLIN
+        </span>
+        <br />
+        <strong>ALHAMDULILLAH SAH</strong>
+      </p>
+    </header>
+
+    <!-- UCAPAN -->
+    <section id="ucapan">
+      <h2>🔥 VIBES CHECK STAGE 🔥</h2>
+      <p>
+        Selamat untuk Robby dan berln! Kalian resmi masuk *main stage* kehidupan
+        — lengkap dengan spotlight, encore, dan crowd paling heboh. Semoga hidup
+        kalian selalu *sync*, setlist-nya panjang, dan nggak ada drama kecuali
+        yang lucu-lucu.
+        <br /><br />
+        versi 1.0 — stable, committed, long-term support,
+        <strong>Naufal</strong>
+      </p>
+    </section>
+
+    <!-- GALLERY -->
+    <section class="gallery" style="margin-top: 40px">
+      <button id="prankBtn" class="prank-button">
+        🎉 KLIK UNTUK MELIHAT GALLERY 🎉
+      </button>
+    </section>
+
+    <!-- POPUP PRANK -->
+    <div id="prankPopup" class="prank-popup">
+      <div class="prank-content">
+        <h2>🙏 MAAF! 🙏</h2>
+        <p>
+          GAADA GALLERY NIH, CUMA NGE-PRANK DOANG! HEHEHE. SELAMAT YA BUAT ROBBY
+          & BERLIN! SEMOGA BAHAGIA SELALU.
+        </p>
+        <button id="closePrank" class="close-prank">Tutup</button>
+      </div>
+    </div>
+
+    <!-- NEW GAME -->
+    <section id="game">
+      <h2>🎮 DODGE THE DRAMA!</h2>
+      <p style="color: #aaa">
+        Sentuh kiri–kanan atau pakai tombol panah untuk gerakin (🕺). Hindari 💔
+        dan tangkap ✨ untuk nambah score!
+      </p>
+
+      <div id="playArea">
+        <div id="player">🕺</div>
+
+        <!-- TOUCH ZONES -->
+        <div id="touch-left"></div>
+        <div id="touch-right"></div>
+      </div>
+
+      <div id="score">SCORE: 0</div>
+      <div id="game-over">GAME OVER — kebanyakan drama 😭</div>
+    </section>
+
+    <footer>
+      <p>Pagi ngoding, malam jamming 🎸💻</p>
+    </footer>
+
+    <script>
+      const prankBtn = document.getElementById("prankBtn");
+      const prankPopup = document.getElementById("prankPopup");
+      const closePrank = document.getElementById("closePrank");
+
+      prankBtn.onclick = () => {
+        prankPopup.style.display = "block";
+      };
+
+      closePrank.onclick = () => {
+        prankPopup.style.display = "none";
+      };
+
+      const playArea = document.getElementById("playArea");
+      const player = document.getElementById("player");
+      const scoreDisplay = document.getElementById("score");
+      const gameOverText = document.getElementById("game-over");
+
+      const touchLeft = document.getElementById("touch-left");
+      const touchRight = document.getElementById("touch-right");
+
+      let score = 0;
+      let isGameOver = false;
+      let playerX = playArea.clientWidth / 2 - 20;
+
+      /* ----------- MOVEMENT FUNCTION ----------- */
+      function movePlayer(direction) {
+        if (isGameOver) return;
+
+        // speed disesuaikan device
+        const speed = window.innerWidth < 550 ? 16 : 24;
+
+        if (direction === "left") playerX -= speed;
+        if (direction === "right") playerX += speed;
+
+        // boundaries
+        if (playerX < 0) playerX = 0;
+        if (playerX > playArea.clientWidth - 40)
+          playerX = playArea.clientWidth - 40;
+
+        player.style.left = playerX + "px";
+      }
+
+      /* ----------- PC KEYBOARD CONTROL ----------- */
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "ArrowLeft") movePlayer("left");
+        if (e.key === "ArrowRight") movePlayer("right");
+      });
+
+      /* ----------- MOBILE TOUCH CONTROL ----------- */
+      function startTouchMove(direction, touchElement) {
+        const interval = setInterval(() => {
+          if (isGameOver) return clearInterval(interval);
+          movePlayer(direction);
+        }, 35);
+
+        touchElement.addEventListener(
+          "touchend",
+          () => clearInterval(interval),
+          { once: true }
+        );
+      }
+
+      touchLeft.addEventListener("touchstart", () => {
+        startTouchMove("left", touchLeft);
+      });
+
+      touchRight.addEventListener("touchstart", () => {
+        startTouchMove("right", touchRight);
+      });
+
+      /* ----------- SPAWN ITEMS ----------- */
+      function spawnFalling() {
+        if (isGameOver) return;
+
+        const item = document.createElement("div");
+        item.classList.add("falling");
+
+        const isGood = Math.random() > 0.65; // 35% good vibes ✨
+        item.textContent = isGood ? "✨" : "💔";
+
+        item.style.left = Math.random() * (playArea.clientWidth - 40) + "px";
+        playArea.appendChild(item);
+
+        const fallInterval = setInterval(() => {
+          const rectItem = item.getBoundingClientRect();
+          const rectPlayer = player.getBoundingClientRect();
+
+          // collision detection
+          if (
+            rectItem.bottom >= rectPlayer.top &&
+            rectItem.left < rectPlayer.right &&
+            rectItem.right > rectPlayer.left
+          ) {
+            if (isGood) {
+              score++;
+              scoreDisplay.textContent = "SCORE: " + score;
+            } else {
+              gameOver();
+            }
+            item.remove();
+            clearInterval(fallInterval);
+          }
+
+          const areaRect = playArea.getBoundingClientRect();
+
+          if (rectItem.top > areaRect.bottom) {
+            // jatuh keluar playArea, cukup remove tanpa efek
+            item.remove();
+            clearInterval(fallInterval);
+            return;
+          }
+        }, 20);
+      }
+
+      /* ----------- GAME OVER ----------- */
+      function gameOver() {
+        isGameOver = true;
+        gameOverText.style.display = "block";
+      }
+
+      /* ----------- SPAWN SPEED ----------- */
+      setInterval(spawnFalling, 900);
+
+      /* ----------- POSITION FIX ----------- */
+      window.onload = () => {
+        player.style.left = playerX + "px";
+      };
+    </script>
+  </body>
+</html>
