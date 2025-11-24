@@ -174,19 +174,64 @@
         border-radius: 8px;
       }
 
+      /* Tombol Restart */
+      #restart-btn {
+        margin-top: 15px;
+        padding: 10px 20px;
+        background: var(--primary-neon);
+        color: #000;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: bold;
+        display: none;
+        font-size: 1rem;
+        box-shadow: 0 0 15px var(--primary-neon);
+      }
+
+      #restart-btn:hover {
+        filter: brightness(1.2);
+      }
+
       #player {
-        font-size: 2.5rem;
         position: absolute;
-        left: 50%;
-        bottom: 20px;
+        bottom: 25px;
         transform: translateX(-50%);
+        width: 35px; /* bagian tubuh emoji */
+        height: 55px; /* tinggi pas */
+        background: none; /* hitbox terlihat */
+        border-radius: 5px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: transparent;
+        box-shadow: 0 0 18px 5px rgba(255, 0, 0, 0.6); /* glow merah blur */
+      }
+
+      #player-icon {
+        font-size: 2.7rem;
+        pointer-events: none;
+        margin-top: -3px; /* agar emoji pas di tengah */
       }
 
       .falling {
-        font-size: 2.2rem;
         position: absolute;
         top: -40px;
         animation: fall 3s linear forwards;
+
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+
+        border-radius: 6px; /* opsional */
+        background-color: transparent;
+        box-shadow: 0 0 18px 5px rgba(255, 0, 0, 0.6); /* glow merah blur */
+      }
+
+      .fall-icon {
+        font-size: 1.7rem;
+        line-height: 1;
+        pointer-events: none;
       }
 
       @keyframes fall {
@@ -372,7 +417,9 @@
       </p>
 
       <div id="playArea">
-        <div id="player">🕺</div>
+        <div id="player">
+          <span id="player-icon">🕺</span>
+        </div>
 
         <!-- TOUCH ZONES -->
         <div id="touch-left"></div>
@@ -381,6 +428,7 @@
 
       <div id="score">SCORE: 0</div>
       <div id="game-over">GAME OVER — kebanyakan drama 😭</div>
+      <button id="restart-btn">🔄 MAIN LAGI</button>
     </section>
 
     <footer>
@@ -404,13 +452,20 @@
       const player = document.getElementById("player");
       const scoreDisplay = document.getElementById("score");
       const gameOverText = document.getElementById("game-over");
+      const restartBtn = document.getElementById("restart-btn");
 
       const touchLeft = document.getElementById("touch-left");
       const touchRight = document.getElementById("touch-right");
 
       let score = 0;
       let isGameOver = false;
-      let playerX = playArea.clientWidth / 2 - 20;
+      let fallingItems = [];
+      let playerX = playArea.clientWidth / 2;
+
+      // --- UPDATE POSISI PLAYER ---
+      function updatePlayerPosition() {
+        player.style.left = playerX + "px";
+      }
 
       /* ----------- MOVEMENT FUNCTION ----------- */
       function movePlayer(direction) {
@@ -422,12 +477,12 @@
         if (direction === "left") playerX -= speed;
         if (direction === "right") playerX += speed;
 
-        // boundaries
+        // boundaries (pakai bounding lebih presisi)
+        const limit = playArea.clientWidth - player.offsetWidth;
         if (playerX < 0) playerX = 0;
-        if (playerX > playArea.clientWidth - 40)
-          playerX = playArea.clientWidth - 40;
+        if (playerX > limit) playerX = limit;
 
-        player.style.left = playerX + "px";
+        updatePlayerPosition();
       }
 
       /* ----------- PC KEYBOARD CONTROL ----------- */
@@ -446,17 +501,18 @@
         touchElement.addEventListener(
           "touchend",
           () => clearInterval(interval),
-          { once: true }
+          {
+            once: true,
+          }
         );
       }
 
-      touchLeft.addEventListener("touchstart", () => {
-        startTouchMove("left", touchLeft);
-      });
-
-      touchRight.addEventListener("touchstart", () => {
-        startTouchMove("right", touchRight);
-      });
+      touchLeft.addEventListener("touchstart", () =>
+        startTouchMove("left", touchLeft)
+      );
+      touchRight.addEventListener("touchstart", () =>
+        startTouchMove("right", touchRight)
+      );
 
       /* ----------- SPAWN ITEMS ----------- */
       function spawnFalling() {
@@ -465,15 +521,21 @@
         const item = document.createElement("div");
         item.classList.add("falling");
 
-        const isGood = Math.random() > 0.65; // 35% good vibes ✨
-        item.textContent = isGood ? "✨" : "💔";
+        const isGood = Math.random() > 0.65;
+        item.innerHTML = `<span class="fall-icon">${
+          isGood ? "✨" : "💔"
+        }</span>`;
 
-        item.style.left = Math.random() * (playArea.clientWidth - 40) + "px";
+        item.style.left = Math.random() * (playArea.clientWidth - 35) + "px";
         playArea.appendChild(item);
+        fallingItems.push(item);
 
         const fallInterval = setInterval(() => {
+          if (isGameOver) return clearInterval(fallInterval);
+
           const rectItem = item.getBoundingClientRect();
           const rectPlayer = player.getBoundingClientRect();
+          const areaRect = playArea.getBoundingClientRect();
 
           // collision detection
           if (
@@ -491,13 +553,9 @@
             clearInterval(fallInterval);
           }
 
-          const areaRect = playArea.getBoundingClientRect();
-
           if (rectItem.top > areaRect.bottom) {
-            // jatuh keluar playArea, cukup remove tanpa efek
             item.remove();
             clearInterval(fallInterval);
-            return;
           }
         }, 20);
       }
@@ -506,14 +564,35 @@
       function gameOver() {
         isGameOver = true;
         gameOverText.style.display = "block";
+        restartBtn.style.display = "inline-block";
       }
+
+      /* ----------- RESTART / RESET GAME ----------- */
+      function resetGame() {
+        isGameOver = false;
+        score = 0;
+        scoreDisplay.textContent = "SCORE: 0";
+        gameOverText.style.display = "none";
+        restartBtn.style.display = "none";
+
+        // hapus semua item jatuh
+        fallingItems.forEach((item) => item.remove());
+        fallingItems = [];
+
+        // reset posisi player
+        playerX = playArea.clientWidth / 2 - player.offsetWidth / 2;
+        updatePlayerPosition();
+      }
+
+      restartBtn.addEventListener("click", resetGame);
 
       /* ----------- SPAWN SPEED ----------- */
       setInterval(spawnFalling, 900);
 
       /* ----------- POSITION FIX ----------- */
       window.onload = () => {
-        player.style.left = playerX + "px";
+        playerX = playArea.clientWidth / 2 - player.offsetWidth / 2;
+        updatePlayerPosition();
       };
     </script>
   </body>
