@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sasha & Adrian - The Wedding Collection</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;600&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+      :root {
+        --chic-gold: #d4af37;
+        --soft-beige: #f5f5f0;
+        --vogue-black: #1a1a1a;
+      }
+
+      body {
+        font-family: "Plus Jakarta Sans", sans-serif;
+        background-color: var(--soft-beige);
+        color: var(--vogue-black);
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+      }
+
+      .serif {
+        font-family: "Playfair Display", serif;
+      }
+
+      .glam-border {
+        border: 1px solid rgba(26, 26, 26, 0.1);
+        position: relative;
+      }
+
+      .glam-border::after {
+        content: "";
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        bottom: 10px;
+        left: 10px;
+        border: 1px solid rgba(212, 175, 55, 0.3);
+        pointer-events: none;
+      }
+
+      .animate-fade-up {
+        animation: fadeUp 1.2s ease-out forwards;
+      }
+
+      @keyframes fadeUp {
+        from {
+          opacity: 0;
+          transform: translateY(30px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      /* Memory Game Styles */
+      .memory-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 8px;
+        perspective: 1000px;
+      }
+
+      .memory-card {
+        aspect-ratio: 1/1;
+        position: relative;
+        transform-style: preserve-3d;
+        transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        cursor: pointer;
+      }
+
+      .memory-card.flipped {
+        transform: rotateY(180deg);
+      }
+
+      .memory-card.matched {
+        transform: rotateY(180deg) scale(0.95);
+        opacity: 0.6;
+        cursor: default;
+      }
+
+      .card-face {
+        position: absolute;
+        inset: 0;
+        backface-visibility: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 2px;
+        border: 1px solid rgba(0, 0, 0, 0.05);
+      }
+
+      .card-front {
+        background-color: var(--vogue-black);
+        color: var(--chic-gold);
+        font-size: 0.6rem;
+        letter-spacing: 2px;
+        font-weight: bold;
+      }
+
+      .card-back {
+        background-color: white;
+        transform: rotateY(180deg);
+        font-size: 1.5rem;
+      }
+
+      .btn-luxe {
+        background: var(--vogue-black);
+        color: white;
+        padding: 14px 35px;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        transition: all 0.3s ease;
+        border: 1px solid var(--vogue-black);
+        display: inline-block;
+      }
+
+      .btn-luxe:hover {
+        background: transparent;
+        color: var(--vogue-black);
+        transform: translateY(-2px);
+      }
+
+      .timeline-dot {
+        width: 8px;
+        height: 8px;
+        background: var(--chic-gold);
+        border-radius: 50%;
+        position: relative;
+        z-index: 2;
+      }
+
+      /* Moodboard Layout */
+      .moodboard-item {
+        overflow: hidden;
+        position: relative;
+      }
+      .moodboard-item img {
+        transition: transform 0.5s ease;
+      }
+      .moodboard-item:hover img {
+        transform: scale(1.1);
+      }
+    </style>
+  </head>
+  <body class="p-4 md:p-8">
+    <main
+      class="max-w-4xl mx-auto glam-border bg-white min-h-[90vh] flex flex-col items-center p-6 md:p-12 shadow-2xl relative"
+    >
+      <!-- Musik & RSVP Toggle (Floating) -->
+      <div class="fixed top-8 right-8 z-50 flex flex-col gap-2">
+        <button
+          onclick="toggleMusic()"
+          id="music-btn"
+          class="w-10 h-10 bg-white border border-gray-200 rounded-full flex items-center justify-center shadow-lg hover:bg-gray-50 transition-all"
+        >
+          🔈
+        </button>
+      </div>
+
+      <!-- Label Atas -->
+      <div
+        class="mb-12 text-center animate-fade-up"
+        style="animation-delay: 0.2s"
+      >
+        <span
+          class="text-[10px] tracking-[0.4em] uppercase opacity-60 font-semibold"
+          >A Love That’s Timeless, A Style That’s Iconic</span
+        >
+        <div class="h-[1px] w-24 bg-black mx-auto mt-3"></div>
+      </div>
+
+      <!-- Nama Mempelai -->
+      <section
+        class="text-center mb-12 animate-fade-up"
+        style="animation-delay: 0.4s"
+      >
+        <h1
+          class="serif text-6xl md:text-9xl italic font-light mb-6 tracking-tight"
+        >
+          Nadim & Bila
+        </h1>
+        <p class="text-[11px] uppercase tracking-[0.6em] mb-10 opacity-70">
+          Disatukan dalam Iman, Dijaga dalam Doa
+        </p>
+      </section>
+
+      <!-- Pesan Utama -->
+      <article
+        class="max-w-2xl text-center space-y-8 animate-fade-up"
+        style="animation-delay: 0.8s"
+      >
+        <p class="leading-relaxed text-base md:text-lg opacity-90 font-light">
+          Selamat menempuh perjalanan baru untuk teman kami, Nadim. Dari
+          hari-hari penuh cerita sampai momen penting hari ini, semoga langkah
+          yang kamu ambil selalu membawa hal baik dan penuh makna.
+        </p>
+
+        <p class="leading-relaxed text-base md:text-lg opacity-90 font-light">
+          Semoga pernikahan kalian dipenuhi rasa syukur, kebahagiaan yang
+          sederhana, dan cinta yang tumbuh pelan-pelan tapi bertahan lama di
+          setiap fase kehidupan.
+        </p>
+      </article>
+
+      <!-- Bagian Mini Game (Interaksi Sosial) -->
+      <section
+        id="game-section"
+        class="w-full max-w-sm text-center pt-10 animate-fade-up"
+        style="animation-delay: 1s"
+      >
+        <div class="bg-gray-50/80 p-10 rounded-sm border border-gray-100">
+          <h3 class="serif italic text-3xl mb-3">Matching The Pairs</h3>
+          <p
+            class="text-[10px] uppercase tracking-[0.3em] mb-8 opacity-60 italic"
+          >
+            Samakan koleksi ikonik
+          </p>
+
+          <div id="grid" class="memory-grid mb-8">
+            <!-- Kartu dibuat oleh JS -->
+          </div>
+
+          <p
+            id="game-status"
+            class="text-[11px] mb-4 italic text-amber-700 font-bold opacity-0 transition-opacity uppercase tracking-widest"
+          >
+            Fashion Match Found! ✨
+          </p>
+        </div>
+
+        <div class="mt-16 pb-10">
+          <div class="flex flex-col gap-4 items-center">
+            <button onclick="celebrate()" class="btn-luxe w-full md:w-auto">
+              Toast Virtual! 🥂
+            </button>
+            <button
+              onclick="window.scrollTo(0,0)"
+              class="text-[10px] uppercase tracking-[0.2em] opacity-50 hover:opacity-100 transition-all"
+            >
+              Kembali ke Atas
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer
+        class="mt-20 text-center border-t border-gray-100 pt-10 w-full opacity-40"
+      >
+        <div class="text-[8px] uppercase tracking-[0.2em]">
+          Dibuat khusus untuk Nadim & Bila
+        </div>
+      </footer>
+    </main>
+
+    <!-- Elemen Latar Belakang Statis -->
+    <div
+      class="fixed top-0 left-0 w-full h-full -z-10 opacity-[0.03] pointer-events-none overflow-hidden select-none"
+    >
+      <div
+        class="absolute top-20 left-10 serif text-[20rem] font-bold rotate-12"
+      >
+        S
+      </div>
+      <div
+        class="absolute bottom-20 right-10 serif text-[20rem] font-bold -rotate-12"
+      >
+        A
+      </div>
+    </div>
+
+    <script>
+      // Audio Toggle Mockup
+      let musicPlaying = false;
+      function toggleMusic() {
+        const btn = document.getElementById("music-btn");
+        musicPlaying = !musicPlaying;
+        btn.innerHTML = musicPlaying ? "🔊" : "🔈";
+        // Di sini bisa ditambahkan logic audio asli jika ada file .mp3
+      }
+
+      // Memory Game Logic
+      const icons = ["💎", "💄", "👠", "👒", "🥂", "🎞️"];
+      const deck = [...icons, ...icons];
+      let flippedCards = [];
+      let matchedPairs = 0;
+      let canFlip = true;
+
+      function shuffle(array) {
+        return array.sort(() => Math.random() - 0.5);
+      }
+
+      function initGame() {
+        const grid = document.getElementById("grid");
+        const shuffledDeck = shuffle(deck);
+
+        shuffledDeck.forEach((icon) => {
+          const card = document.createElement("div");
+          card.className = "memory-card";
+          card.dataset.icon = icon;
+          card.innerHTML = `
+                    <div class="card-face card-front shadow-sm">VOGUE</div>
+                    <div class="card-face card-back shadow-sm text-2xl">${icon}</div>
+                `;
+          card.addEventListener("click", () => flipCard(card));
+          grid.appendChild(card);
+        });
+      }
+
+      function flipCard(card) {
+        if (
+          !canFlip ||
+          card.classList.contains("flipped") ||
+          card.classList.contains("matched")
+        )
+          return;
+
+        card.classList.add("flipped");
+        flippedCards.push(card);
+
+        if (flippedCards.length === 2) {
+          checkMatch();
+        }
+      }
+
+      function checkMatch() {
+        canFlip = false;
+        const [card1, card2] = flippedCards;
+        const isMatch = card1.dataset.icon === card2.dataset.icon;
+
+        if (isMatch) {
+          setTimeout(() => {
+            card1.classList.add("matched");
+            card2.classList.add("matched");
+            matchedPairs++;
+            flippedCards = [];
+            canFlip = true;
+
+            if (matchedPairs === icons.length) {
+              document.getElementById("game-status").style.opacity = "1";
+              celebrate();
+            }
+          }, 400);
+        } else {
+          setTimeout(() => {
+            card1.classList.remove("flipped");
+            card2.classList.remove("flipped");
+            flippedCards = [];
+            canFlip = true;
+          }, 1000);
+        }
+      }
+
+      function celebrate() {
+        const duration = 3 * 1000;
+        const end = Date.now() + duration;
+
+        (function frame() {
+          confetti({
+            particleCount: 3,
+            angle: 60,
+            spread: 55,
+            origin: { x: 0 },
+            colors: ["#D4AF37", "#1A1A1A"],
+          });
+          confetti({
+            particleCount: 3,
+            angle: 120,
+            spread: 55,
+            origin: { x: 1 },
+            colors: ["#D4AF37", "#1A1A1A"],
+          });
+
+          if (Date.now() < end) {
+            requestAnimationFrame(frame);
+          }
+        })();
+      }
+
+      window.onload = initGame;
+    </script>
+  </body>
+</html>
