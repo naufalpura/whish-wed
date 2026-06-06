@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NAIM & MARETA | HAPPY WEDDING</title>
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=Archivo+Black&family=Oswald:wght@700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --red: #ff0000;
+            --black: #000000;
+            --gray: #1a1a1a;
+            --chrome: #e0e0e0;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--black);
+            color: var(--chrome);
+            font-family: 'Oswald', sans-serif;
+            overflow: hidden;
+            background-image: 
+                linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)),
+                url('https://www.transparenttextures.com/patterns/dust.png');
+        }
+
+        /* ROCK CONCERT BACKGROUND */
+        .stage-lighting {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle at 50% -20%, #330000 0%, transparent 70%);
+            z-index: -1;
+        }
+
+        .screen-glitch {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: repeating-linear-gradient(
+                0deg,
+                rgba(255, 255, 255, 0.03) 0px,
+                rgba(255, 255, 255, 0.03) 1px,
+                transparent 1px,
+                transparent 2px
+            );
+            pointer-events: none;
+        }
+
+        /* MAIN POSTER CONTAINER */
+        .concert-container {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .tour-poster {
+            border: 8px solid var(--chrome);
+            padding: 40px;
+            max-width: 600px;
+            width: 100%;
+            text-align: center;
+            position: relative;
+            background: var(--gray);
+            box-shadow: 20px 20px 0px var(--red);
+            animation: headbang 0.4s infinite alternate ease-in-out;
+            transform-style: preserve-3d;
+        }
+
+        @keyframes headbang {
+            from { transform: rotate(0.5deg) translateY(0); }
+            to { transform: rotate(-0.5deg) translateY(5px); }
+        }
+
+        .headline {
+            font-family: 'Archivo Black', sans-serif;
+            font-size: clamp(3rem, 10vw, 6rem);
+            line-height: 0.8;
+            color: var(--red);
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 10px;
+            filter: drop-shadow(4px 4px 0px var(--chrome));
+        }
+
+        .sub-headline {
+            font-family: 'UnifrakturMaguntia', cursive;
+            font-size: 2.5rem;
+            color: var(--chrome);
+            margin-bottom: 30px;
+        }
+
+        .venue-info {
+            border-top: 3px solid var(--chrome);
+            border-bottom: 3px solid var(--chrome);
+            padding: 15px 0;
+            margin: 20px 0;
+            font-size: 1.2rem;
+            letter-spacing: 5px;
+        }
+
+        .rock-message {
+            font-size: 1.1rem;
+            line-height: 1.4;
+            margin-bottom: 30px;
+            color: #bbb;
+            text-transform: uppercase;
+        }
+
+        /* THE "HORN" BUTTON */
+        .rock-btn {
+            background: var(--red);
+            color: var(--black);
+            border: none;
+            padding: 20px 40px;
+            font-family: 'Archivo Black', sans-serif;
+            font-size: 1.5rem;
+            cursor: pointer;
+            width: 100%;
+            transition: 0.1s;
+            position: relative;
+            outline: 3px solid var(--red);
+            outline-offset: 5px;
+        }
+
+        .rock-btn:hover {
+            background: var(--chrome);
+            outline-color: var(--chrome);
+        }
+
+        .rock-btn:active {
+            transform: scale(0.95) translateY(5px);
+        }
+
+        /* GLITCH EFFECT ON CLICK */
+        .glitch-active {
+            animation: glitch-anim 0.2s infinite !important;
+        }
+
+        @keyframes glitch-anim {
+            0% { transform: translate(0); }
+            20% { transform: translate(-10px, 5px) skew(5deg); filter: hue-rotate(90deg); }
+            40% { transform: translate(10px, -5px) reverse; filter: invert(1); }
+            60% { transform: translate(-5px, 10px); }
+            80% { transform: translate(5px, -10px); }
+            100% { transform: translate(0); }
+        }
+
+        .speaker-stack {
+            position: absolute;
+            bottom: -50px;
+            font-size: 5rem;
+            /* opacity: 0.1; */
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="stage-lighting"></div>
+    <div class="screen-glitch"></div>
+
+    <div class="concert-container">
+        <div class="tour-poster" id="poster">
+            <p style="letter-spacing: 10px; margin-bottom: 10px;">HAPPY WEDDING</p>
+            <h1 class="headline">NAIM<br>MARETA</h1>
+            <div class="sub-headline">& Yang Berbahagia</div>
+            
+            <div class="venue-info">
+                PASANGAN TERBAIK // HARI BAHAGIA
+            </div>
+            
+            <div class="rock-message">
+                Semoga menjadi keluarga yang bahagia. <br> 
+                SAKINAH, MAWADDAH, WARROHMAH, SAH!!! <br>
+            </div>
+
+            <button class="rock-btn" id="heavy-metal-btn">MARI BERGOYANG!</button>
+        
+            <div class="speaker-stack" style="left: 10px;">🤘</div>
+            <div class="speaker-stack" style="right: 10px;">🤘</div>
+        </div>
+    </div>
+    
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+
+    <script>
+        const btn = document.getElementById('heavy-metal-btn');
+        const poster = document.getElementById('poster');
+
+        btn.addEventListener('click', () => {
+            // 1. Glitch Effect Trigger
+            poster.classList.add('glitch-active');
+            setTimeout(() => poster.classList.remove('glitch-active'), 1000);
+
+            // 2. High Power Confetti (Rock Style)
+            const count = 200;
+            const defaults = {
+                origin: { y: 0.7 }
+            };
+
+            function fire(particleRatio, opts) {
+                confetti(Object.assign({}, defaults, opts, {
+                    particleCount: Math.floor(count * particleRatio)
+                }));
+            }
+
+            fire(0.25, {
+                spread: 26,
+                startVelocity: 55,
+                colors: ['#ff0000', '#000000']
+            });
+            fire(0.2, {
+                spread: 60,
+                colors: ['#ffffff', '#ff0000']
+            });
+            fire(0.35, {
+                spread: 100,
+                decay: 0.91,
+                scalar: 0.8,
+                colors: ['#ff0000', '#1a1a1a']
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 25,
+                decay: 0.92,
+                scalar: 1.2,
+                colors: ['#ff0000']
+            });
+            fire(0.1, {
+                spread: 120,
+                startVelocity: 45,
+                colors: ['#ffffff']
+            });
+        });
+
+        // Background Flash (Rock Show Lights)
+        setInterval(() => {
+            if(Math.random() > 0.9) {
+                document.body.style.backgroundColor = '#220000';
+                setTimeout(() => {
+                    document.body.style.backgroundColor = '#000000';
+                }, 50);
+            }
+        }, 100);
+    </script>
+</body>
+</html>
