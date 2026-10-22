@@ -1,0 +1,382 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BBQAN BARENG!</title>
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Anton&family=Space+Mono:wght@400;700&display=swap');
+
+:root {
+  --bg: #f5efdf;
+  --ink: #171713;
+  --red: #f0442f;
+  --yellow: #ffdf35;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: 'Space Mono', monospace;
+}
+
+.poster {
+  width: min(100%, 900px);
+  min-height: 100vh;
+  margin: auto;
+  padding: clamp(20px, 5vw, 44px);
+  overflow: hidden;
+  position: relative;
+  background-image: radial-gradient(#17171322 .8px, transparent .8px);
+  background-size: 6px 6px;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  align-items: center;
+  border-bottom: 3px solid var(--ink);
+  padding-bottom: 12px;
+  font-size: 10px;
+  font-weight: bold;
+}
+
+.tag {
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  padding: 6px 9px;
+  transform: rotate(-3deg);
+}
+
+h1 {
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: clamp(66px, 15vw, 145px);
+  line-height: .85;
+  letter-spacing: -2px;
+  margin: 35px 0 15px;
+  position: relative;
+  z-index: 1;
+}
+
+h1 span {
+  display: block;
+}
+
+h1 .second {
+  color: var(--red);
+  -webkit-text-stroke: 1px var(--ink);
+  text-shadow: 3px 3px 0 var(--ink);
+}
+
+.slogan {
+  display: inline-block;
+  background: var(--yellow);
+  border: 2px solid var(--ink);
+  padding: 9px 12px;
+  font-size: clamp(11px, 2.5vw, 15px);
+  font-weight: bold;
+  transform: rotate(-2deg);
+}
+
+.intro {
+  margin: 24px 0;
+  font-size: 13px;
+  line-height: 1.8;
+}
+
+.intro strong {
+  background: var(--yellow);
+  padding: 2px 4px;
+}
+
+.details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 25px;
+}
+
+.info {
+  padding: 16px;
+  border: 3px solid var(--ink);
+  box-shadow: 4px 4px 0 var(--ink);
+  background: var(--bg);
+}
+
+.label {
+  display: inline-block;
+  background: var(--ink);
+  color: white;
+  padding: 5px 8px;
+  font-size: 10px;
+  margin-bottom: 10px;
+}
+
+.info h2 {
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: 26px;
+  line-height: 1.1;
+}
+
+.info p {
+  font-size: 11px;
+  line-height: 1.7;
+  margin-top: 7px;
+  overflow-wrap: anywhere;
+}
+
+.map-btn {
+  display: inline-block;
+  margin-top: 13px;
+  padding: 10px 12px;
+  background: var(--red);
+  color: white;
+  border: 2px solid var(--ink);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 11px;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: .2s;
+}
+
+.map-btn:hover {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+.scene {
+  position: relative;
+  height: clamp(190px, 40vw, 320px);
+  background: var(--yellow);
+  border: 3px solid var(--ink);
+  overflow: hidden;
+  margin: 30px 0 24px;
+}
+
+.scene svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.cta {
+  background: var(--red);
+  border: 3px solid var(--ink);
+  box-shadow: 5px 5px 0 var(--ink);
+  text-align: center;
+  padding: 23px 12px;
+  transform: rotate(-1deg);
+}
+
+.cta h2 {
+  font-family: 'Anton', Impact, sans-serif;
+  font-size: clamp(30px, 7vw, 52px);
+  line-height: 1;
+}
+
+.cta p {
+  font-size: 11px;
+  font-weight: bold;
+  margin-top: 10px;
+}
+
+.join {
+  display: inline-block;
+  margin-top: 17px;
+  padding: 12px 20px;
+  background: var(--yellow);
+  color: var(--ink);
+  border: 2px solid var(--ink);
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 12px;
+  box-shadow: 3px 3px 0 var(--ink);
+  transition: .2s;
+}
+
+.join:hover {
+  transform: translate(3px, 3px);
+  box-shadow: none;
+}
+
+footer {
+  text-align: center;
+  font-size: 9px;
+  font-weight: bold;
+  margin-top: 25px;
+  letter-spacing: 1px;
+}
+
+@media (max-width: 520px) {
+  .details {
+    grid-template-columns: 1fr;
+  }
+
+  .poster {
+    padding: 20px;
+  }
+
+  h1 {
+    font-size: clamp(62px, 17vw, 90px);
+  }
+
+  .scene {
+    height: 210px;
+  }
+
+  .top {
+    font-size: 8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    transition: none !important;
+  }
+}
+</style>
+</head>
+
+<body>
+<main class="poster">
+
+  <header class="top">
+    <span>AGENDA KUMPUL-KUMPUL</span>
+    <span class="tag">EDISI BBQ 🔥</span>
+  </header>
+
+  <h1>
+    <span>BAKARAN</span>
+    <span class="second">BARENG!</span>
+  </h1>
+
+  <div class="slogan">
+    MAKAN ENAK, GAK HARUS SENDIRIAN.
+  </div>
+
+  <p class="intro">
+    Yang penting kumpul, bakar-bakaran, makan, dan ketawa bareng.
+    <strong>GAK USAH BANYAK WACANA, GAS MERAPAT!</strong>
+  </p>
+
+  <section class="details">
+    <div class="info">
+      <span class="label">📍 TITIK KUMPUL</span>
+      <h2>LOKASI BBQ</h2>
+      <p>RITA FROZEN 2.</p>
+
+      <a class="map-btn"
+         href="https://maps.app.goo.gl/tNeACJGJ76kaXvRPA"
+         target="_blank" rel="noopener noreferrer">
+        ↗ BUKA GOOGLE MAPS
+      </a>
+    </div>
+
+    <div class="info">
+      <span class="label">🗓️ JADWAL NONGKI</span>
+      <h2>WAKTUNYA KUMPUL!</h2>
+      <p>Hari/Tanggal: Jumat / 23-10-2026</p>
+      <p>Jam: 18.00</p>
+      <p>Agenda: Bakar-bakaran sampai kenyang.</p>
+    </div>
+  </section>
+
+  <!-- Siluet teman-teman BBQ -->
+  <div class="scene">
+    <svg viewBox="0 0 800 320"
+         xmlns="http://www.w3.org/2000/svg"
+         role="img"
+         aria-label="Siluet teman-teman sedang BBQ bersama">
+
+      <g fill="#171713" stroke="#171713"
+         stroke-linecap="round" stroke-linejoin="round">
+
+        <!-- Orang kiri -->
+        <circle cx="130" cy="83" r="30"/>
+        <path d="M99 80 Q102 40 140 48 L160 66 L156 79 L132 65 L105 93Z"/>
+        <path d="M105 116 Q130 101 151 120 L174 205
+                 L151 213 L160 310 L111 310 L112 220
+                 L83 310 L43 310 L79 192Z"/>
+
+        <!-- Lengan menuju grill -->
+        <path d="M145 137 L210 185 L290 187 L297 201
+                 L211 208 L133 170Z"/>
+
+        <!-- Orang tengah -->
+        <circle cx="390" cy="74" r="30"/>
+        <path d="M363 66 Q383 32 413 57 L424 76
+                 L411 85 L397 59 L373 85Z"/>
+        <path d="M363 111 Q390 96 416 115
+                 L442 194 L418 211 L430 310
+                 L389 310 L378 222 L355 310
+                 L315 310 L340 192Z"/>
+
+        <!-- Lengan pegang alat panggang -->
+        <path d="M361 130 L318 181 L300 188
+                 L303 204 L333 198 L386 151Z"/>
+
+        <!-- Orang kanan -->
+        <circle cx="665" cy="87" r="29"/>
+        <path d="M637 78 Q642 43 676 53 L694 74
+                 L682 86 L662 65 L642 96Z"/>
+        <path d="M638 119 Q664 103 690 123
+                 L720 201 L701 222 L728 310
+                 L681 310 L658 226 L641 310
+                 L598 310 L620 202Z"/>
+
+        <!-- Lengan mengangkat minuman -->
+        <path d="M688 136 L721 107 L733 65
+                 L748 61 L746 111 L709 161Z"/>
+
+        <!-- Grill -->
+        <ellipse cx="401" cy="226" rx="147" ry="26"/>
+        <path d="M263 224 L284 277 L515 277 L538 224Z"/>
+        <path d="M292 272 L278 313 L295 313 L321 272Z"/>
+        <path d="M485 272 L503 313 L520 313 L509 272Z"/>
+      </g>
+
+      <!-- Panggangannya -->
+      <g fill="#f0442f">
+        <ellipse cx="328" cy="218" rx="20" ry="8" transform="rotate(-12 328 218)"/>
+        <ellipse cx="371" cy="211" rx="19" ry="8" transform="rotate(10 371 211)"/>
+        <ellipse cx="412" cy="219" rx="20" ry="8" transform="rotate(-8 412 219)"/>
+        <ellipse cx="453" cy="211" rx="19" ry="8" transform="rotate(12 453 211)"/>
+        <ellipse cx="477" cy="225" rx="18" ry="7"/>
+      </g>
+
+      <g stroke="#171713" stroke-width="5"
+         stroke-linecap="round" fill="none">
+        <path d="M350 183 Q330 164 350 148 Q367 134 352 116"/>
+        <path d="M399 178 Q382 160 400 145 Q415 130 402 111"/>
+        <path d="M445 181 Q428 165 445 151 Q459 137 447 124"/>
+      </g>
+
+      <text x="400" y="34" fill="#171713"
+            font-family="sans-serif" font-weight="900"
+            font-size="18" text-anchor="middle">
+        GOOD FOOD • GOOD MOOD
+      </text>
+    </svg>
+  </div>
+
+  <section class="cta">
+    <h2>YUK, MERAPAT!</h2>
+    <p>Bawa diri, bawa cerita. Sisanya kita atur bareng!</p>
+  </section>
+
+  <footer>
+    BBQ • TEMAN • MAKAN • CERITA
+  </footer>
+
+</main>
+</body>
+</html>
